@@ -40,19 +40,20 @@ export default function CopilotPanel({
   }
 
   return (
-    <section className=" lg:w-96 bg-white m-1 rounded-xl h-[100dvh] overflow-x-hidden flex flex-col p-2 ">
-      <div className="p-4 border-b border-gray-200">
+    <section className="h-[100dvh]  lg:w-96 bg-white m-1 rounded-xl overflow-hidden flex flex-col relative">
+      <div className="p-4 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 pl-8 lg:pl-0" >
+          <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold border-b-3 border-current">Copilot</h2>
             <h3 className="text-lg font-semibold cursor-pointer">Details</h3>
           </div>
-
-          <span className="px-2 py-1 text-xs font-medium text-black bg-gray-100 rounded-lg"><SquareSplitHorizontal size={18} /></span>
+          <span className="px-2 py-1 text-xs font-medium text-black bg-gray-100 rounded-lg">
+            <SquareSplitHorizontal size={18} />
+          </span>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-[80px]">
         {chatHistory.length === 0 ? (
           <div className="flex flex-col gap-4 items-center h-full justify-center space-x-3">
             <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -113,15 +114,15 @@ export default function CopilotPanel({
 
 
 
-      <div className="p-4 border-t border-gray-200">
-        <div className="relative flex items-center">
+      <div className=" p-4 border-t border-gray-200 bg-white">
+        <div className="sticky bottom-0 flex items-center">
           <input
             type="text"
             placeholder="Ask a question..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-            className="w-full pl-4 pr-10 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+            className="w-full pl-4 pr-10 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
           />
           <button
             onClick={handleAsk}
