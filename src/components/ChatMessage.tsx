@@ -8,7 +8,6 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
     const [composer, setComposer] = useState(initialComposer);
     const hasActiveMessage = messages.some(message => message.isActive);
 
-    // Update composer when initialComposer changes
     useEffect(() => {
         setComposer(initialComposer);
     }, [initialComposer]);
@@ -33,8 +32,8 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
     };
 
     return (
-        <section className="flex-1 flex flex-col bg-white  relative m-1 rounded-2xl">
-            <div className="flex-1 rounded-xl bg-white  p-4 overflow-y-auto space-y-3 pb-40">
+        <section className="flex-1 flex flex-col bg-white lg:h-auto h-[calc(100vh-4rem)] relative m-1 rounded-2xl">
+            <div className="flex-1 rounded-xl bg-white p-4 overflow-y-auto space-y-3 pb-40">
 
                 {hasActiveMessage ? (
                     messages.map((message) =>
@@ -42,14 +41,14 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                         message.isActive && (
                             <>
                                 <div key={message.id} className="space-y-4">
-                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2'>
-                                        <div className="lg:text-xl font-semibold p-2 ">
+                                    <div className='flex items-center  relative justify-between border-b border-gray-200 pb-2'>
+                                        <div className="lg:text-xl font-semibold p-2 pl-8 lg:pl-2">
                                             {message.sender}
                                         </div>
                                         <div className='flex items-center gap-3 pb-2'>
-                                            <button className='p-2 bg-gray-50 hover:bg-gray-100 cursor-pointer rounded-lg'><Ellipsis /></button>
-                                            <button className='p-2 bg-gray-50 hover:bg-gray-100 cursor-pointer rounded-lg'><MoonStar size={20} style={{ fill: 'black' }} /></button>
-                                            <button className='p-1 px-3 bg-gray-900 hover:bg-gray-950 cursor-pointer rounded-lg flex items-center gap-2 font-semibold text-white'><MailOpen size={18} /> Close</button>
+                                            <button className='lg:p-2 p-1 bg-gray-50 hover:bg-gray-100 cursor-pointer rounded-lg'><Ellipsis size={window.innerWidth >= 1024 ? 20 : 14}/></button>
+                                            <button className='lg:p-2 p-1 bg-gray-50 hover:bg-gray-100 cursor-pointer rounded-lg'><MoonStar size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black' }} /></button>
+                                            <button className='lg:p-2 p-1 px-3 bg-gray-900 hover:bg-gray-950 cursor-pointer rounded-lg flex items-center gap-2 font-semibold text-white text-xs '><MailOpen size={window.innerWidth >= 1024 ? 14 : 14}/> Close</button>
                                         </div>
                                     </div>
                                     {message.chatHistory?.map((chat, index) => (
@@ -82,10 +81,10 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                                     />
                                     <div className='relative flex justify-between items-center'>
                                         <div className='flex gap-2'>
-                                            <button className='hover:bg-gray-50'><Zap size={18} style={{ fill: 'black' }} /></button>
+                                            <button className='hover:bg-gray-50'><Zap size={window.innerWidth >= 1024 ? 18 : 14} style={{ fill: 'black' }} /></button>
                                             <div className=''>|</div>
-                                            <button className='hover:bg-gray-50'><BookMarked size={20} style={{ fill: 'black', stroke: 'white' }} /></button>
-                                            <button className='hover:bg-gray-50'><SmileIcon size={20} style={{ fill: 'black', stroke: 'white' }} /></button>
+                                            <button className='hover:bg-gray-50'><BookMarked size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black', stroke: 'white' }} /></button>
+                                            <button className='hover:bg-gray-50'><SmileIcon size={window.innerWidth >= 1024 ? 20 : 16} style={{ fill: 'black', stroke: 'white' }} /></button>
                                         </div>
                                         <button
                                             onClick={handleSend}
