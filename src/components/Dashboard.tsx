@@ -24,12 +24,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <section className="lg:flex hidden h-screen lg:bg-gray-100 bg-white">
+      <section className="lg:flex hidden h-screen lg:bg-gray-100 ">
         <InboxSideBar onChatSelect={handleChatSelect} />
         <ChatMessage initialComposer={composer} />
         <CopilotPanel conversation={copilotConvo} onCompose={handleAddToComposer} />
       </section>
-      <section className="lg:hidden block h-full bg-gray-100">
+      <section className="lg:hidden block h-full bg-white">
         {mobileView === 'inbox' && <InboxSideBar onChatSelect={handleChatSelect} />}
         {mobileView !== 'inbox' && (
           <div className="fixed top-0 left-0 right-0 bg-white z-10 p-4 flex items-center gap-4">

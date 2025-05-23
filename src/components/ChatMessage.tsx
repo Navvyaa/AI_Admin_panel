@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { useChat } from '../context/chatContext';
 import { ChevronDown, MessageSquareText, Zap, SmileIcon, BookMarked, Ellipsis, MailOpen, MoonStar } from 'lucide-react';
 
@@ -82,6 +82,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
             </div>
 
             {/* Fixed Composer */}
+            {hasActiveMessage  &&(
             <div className="sticky bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
                 <div className='flex gap-2 items-center mb-2'>
                     <MessageSquareText size={20} color='black' style={{ fill: 'black', stroke: 'white' }} />
@@ -110,6 +111,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                     </button>
                 </div>
             </div>
+            )}
         </section>
     );
 }

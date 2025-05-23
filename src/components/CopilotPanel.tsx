@@ -40,7 +40,7 @@ export default function CopilotPanel({
   }
 
   return (
-    <section className="h-[100dvh]  lg:w-96 bg-white m-1 rounded-xl overflow-hidden flex flex-col relative">
+    <section className="h-[100dvh] lg:w-96 bg-white m-1 rounded-xl overflow-hidden flex flex-col">
       <div className="p-4 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -114,20 +114,20 @@ export default function CopilotPanel({
 
 
 
-      <div className=" p-4 border-t border-gray-200 bg-white">
-        <div className="sticky bottom-0 flex items-center">
+      <div className="lg:static absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
+        <div className="flex items-center">
           <input
             type="text"
             placeholder="Ask a question..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-            className="w-full pl-4 pr-10 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+            className="w-full  pl-4 pr-10 py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
           />
           <button
             onClick={handleAsk}
             disabled={!input.trim()}
-            className="absolute right-3 text-gray-400 hover:text-blue-600 transition-colors"
+            className="absolute  right-8 text-gray-400 hover:text-gray-600 transition-colors"
           >
             <Send size={18} />
           </button>
