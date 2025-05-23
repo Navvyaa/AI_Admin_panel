@@ -6,6 +6,7 @@ interface Message {
     fullMessage: string;
     time: string;
     isActive:boolean;
+    chatHistory: { role: string; text: string }[];
   }
 export const messages:Message[] = [
     {
@@ -15,7 +16,11 @@ export const messages:Message[] = [
       preview: 'I bought a product from your store in November as a Christmas gift...',
       fullMessage: 'Hi, I bought a product in November as a gift and it was defective. Can I get a refund?',
       time: '4m',
-      isActive:false
+      isActive:false,
+      chatHistory: [
+        { role: "user", text: "Hi, I bought a product in November as a gift and it was defective. Can I get a refund?" },
+        // { role: "assistant", text: "We're sorry the product didn't meet expectations. We can process a full refund once the return is initiated." },
+      ]
     },
     {
       id: '2',
@@ -24,7 +29,10 @@ export const messages:Message[] = [
       preview: 'Good morning, let me...',
       fullMessage: 'Hi, I bought a product a week ago but I dont like it anymore. Can it be rerturned?',
       time: '2h',
-      isActive:false
+      isActive:false,
+      chatHistory: [
+        { role: "user", text: "Hi, I bought a product a week ago but I dont like it anymore. Can it be rerturned?" },
+      ]
     },
     {
       id: '3',
@@ -34,6 +42,9 @@ export const messages:Message[] = [
       fullMessage: 'Hi, I bought a product in November as a gift and it was defective. i want to have a refund.',
       time: '4h',
       isActive:false, 
+      chatHistory: [
+        { role: "user", text: "Hi, I bought a product in November as a gift and it was defective. i want to have a refund." },
+      ]
     }
 
   ];

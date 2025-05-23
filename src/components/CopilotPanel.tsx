@@ -3,7 +3,8 @@
 import { useState } from "react"
 import { aiResponses } from "../lib/data"
 import { Send, Bot } from "lucide-react"
-
+import { useRef } from "react"
+import {SquareSplitHorizontal,PencilLine} from "lucide-react";
 export default function CopilotPanel({
   onCompose,
   conversation,
@@ -11,9 +12,10 @@ export default function CopilotPanel({
   onCompose: (msg: string) => void
   conversation: { role: string; text: string }[]
 }) {
-  const [input, setInput] = useState("")
-  const [aiReply, setAiReply] = useState("")
-  const [chatHistory, setChatHistory] = useState<{ role: string; text: string }[]>(conversation || [])
+  const [input, setInput] = useState<string>("");
+  const [aiReply, setAiReply] = useState<string>("");
+  const [chatHistory, setChatHistory] = useState<{ role: string; text: string }[]>(conversation || []);
+  const scrollend=useRef(chatHistory.length);
 
   const handleAsk = () => {
     if (!input.trim()) return
@@ -38,28 +40,32 @@ export default function CopilotPanel({
   }
 
   return (
-    <section className="w-96 bg-white border-l border-gray-200 flex flex-col h-full">
+    <section className="w-full lg:w-96 bg-white m-1 rounded-xl flex flex-col p-2 ">
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="lg:text-2xl font-semibold">AI Copilot</h2>
-          <span className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">Beta</span>
+          <div className="flex items-center gap-4">
+          <h2 className="text-xl font-semibold border-b-3 border-current">Copilot</h2>
+          <h3 className="text-lg font-semibold cursor-pointer">Details</h3>
+          </div>
+
+          <span className="px-2 py-1 text-xs font-medium text-black bg-gray-100 rounded-lg"><SquareSplitHorizontal size={18}/></span>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {chatHistory.length === 0 ? (
-          <div className="flex items-start space-x-3">
-            <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <Bot size={18} className="text-blue-600" />
+          <div className="flex flex-col gap-4 items-center h-full justify-center space-x-3">
+            <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <Bot size={20} className="text-blue-600" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">Hi, I'm Fin – your AI Copilot</p>
+            <div className="text-center">
+              <p className="text-lg font-medium text-gray-900"> Hi, I'm Fin – your AI Copilot</p>
               <p className="mt-1 text-sm text-gray-500">Ask me about this conversation</p>
             </div>
           </div>
         ) : (
           chatHistory.map((msg, i) => (
-            <div key={i} className={`flex ${msg.role === "ai" ? "justify-start" : "justify-end"}`}>
+            <div key={i}  className={`flex ${msg.role === "ai" ? "justify-start" : "justify-end"}`}>
               <div className={`flex items-end gap-2 ${msg.role === "ai" ? "flex-row" : "flex-row-reverse"}`}>
                 {msg.role === "ai" && (
                   <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -68,31 +74,37 @@ export default function CopilotPanel({
                 )}
                 {msg.role === "user" && (
                   <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                    <span className="text-gray-600 text-sm font-medium">You</span>
+                    <span className="text-gray-600 text-sm font-medium">Y</span>
                   </div>
                 )}
                 <div
                   className={`text-sm p-3 rounded-lg max-w-[75%] ${
                     msg.role === "ai"
-                      ? "bg-blue-100 text-blue-900 rounded-tl-none"
-                      : "bg-gray-100 text-gray-800 rounded-tr-none"
+                      ? "bg-gray-100  rounded-bl-none"
+                      : "bg-gray-200 text-gray-800 rounded-br-none"
                   }`}
                 >
                   {msg.text}
-                   {msg.role==="ai" && i===chatHistory.length-1 &&  aiReply!=="Sorry, I couldn't find anything helpful for that." &&  (
-        <div className="p-4 bg-gray-50 space-y-2">
-          {/* <p className="text-sm text-gray-800">{aiReply}</p> */}
-          <button
-            onClick={() => {
-              onCompose(aiReply)
-              setAiReply("")
-            }}
-            className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            Add to Composer
-          </button>
-        </div>
-      )}              
+                  {msg.role==="ai" && i===chatHistory.length-1 && aiReply!=="Sorry, I couldn't find anything helpful for that." && (
+                    <div className="p-4  space-y-2">
+                        <button
+                            onClick={() => {
+                                onCompose(aiReply);
+                                setAiReply("");
+setChatHistory((prev) => prev.map((msg, idx) => {
+    if (idx === chatHistory.length - 1) {
+        return { ...msg, composed: true };
+    }
+    return msg;
+}));
+                            }}
+                            className="text-xs px-3 py-2 flex gap-3 font-semibold items-center  bg-gray-900 text-white rounded-3xl  hover:bg-black transition-colors"
+                        >
+                            <PencilLine size={16} strokeWidth={2.5} />
+                           <p>Add to Composer</p> 
+                        </button>
+                    </div>
+                )}              
        </div>
               </div>
             </div>
@@ -100,20 +112,7 @@ export default function CopilotPanel({
         )}
       </div>
 
-      {/* {aiReply && (
-        <div className="p-4 bg-gray-50 space-y-2">
-          <p className="text-sm text-gray-800">{aiReply}</p>
-          <button
-            onClick={() => {
-              onCompose(aiReply)
-              setAiReply("")
-            }}
-            className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            Add to Composer
-          </button>
-        </div>
-      )} */}
+      
 
       <div className="p-4 border-t border-gray-200">
         <div className="relative flex items-center">

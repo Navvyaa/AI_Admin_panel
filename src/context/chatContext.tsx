@@ -10,6 +10,7 @@ interface Message {
     fullMessage: string;
     time: string;
     isActive: boolean;
+    chatHistory: { role: string; text: string }[];
 }
  interface ChatContextType {
     message: Message[];
@@ -18,16 +19,18 @@ interface Message {
 }
 const ChatContext=createContext<ChatContextType | undefined>(undefined);
 
-export default function ChatProvider ({children}:{children:ReactNode}){
-    const [messages,setMessages]=useState<Message[]>(initialMessages);
-    const [activeMessage,setActiveMessage]=useState<Message | null>(messages.find(m => m.isActive) || null);
+export default function ChatProvider({children}: {children: ReactNode}) {
+    const [messages, setMessages] = useState<Message[]>(initialMessages);
+    const [activeMessage, setActiveMessage] = useState<Message | null>(messages.find(m => m.isActive) || null);
+
     const handleSetActiveMessage = (message: Message) => {
-        setMessages(messages.map(m => ({
-          ...m,
-          isActive: m.id === message.id
+        setMessages(prevMessages => prevMessages.map(m => ({
+            ...m,
+            isActive: m.id === message.id,
+            chatHistory: m.id === message.id ? message.chatHistory : m.chatHistory
         })));
         setActiveMessage(message);
-      };
+    };
     
       return (
         <ChatContext.Provider value={{
