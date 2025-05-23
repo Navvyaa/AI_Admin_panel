@@ -1,4 +1,5 @@
 import Dashboard from './components/Dashboard'
+import ChatProvider from './context/chatContext'
 import './App.css'
 
 function App() {
@@ -8,7 +9,9 @@ function App() {
     <>
       {/* <p className='text-xl text-purple-900'>This is admin panel ai dashboard</p> */}
       <section className='w-full h-screen '>
+        <ChatProvider>
         <Dashboard />
+        </ChatProvider>
       </section>
     </>
   )

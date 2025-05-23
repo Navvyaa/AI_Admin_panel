@@ -1,42 +1,13 @@
-interface Message {
-    id: string;
-    sender: string;
-    avatar: string;
-    preview: string;
-    time: string;
-    isNew?: boolean;
-}
+
+import { useChat } from '../context/chatContext';
 
 export default function ConversationList() {
-    const messages: Message[] = [
-        {
-            id: '1',
-            sender: 'Luis Easton',
-            avatar: 'L',
-            preview: 'I bought a product from your store in November as a Christmas gift...',
-            time: '4m',
-            isNew: true
-        },
-        {
-            id: '2',
-            sender: 'Lead from New York',
-            avatar: 'NY',
-            preview: 'Good morning, let me...',
-            time: '2h'
-        },
-        {
-            id: '3',
-            sender: 'Miracle - Everyday Bank',
-            avatar: 'M',
-            preview: 'Hey there, I\'m Ne...',
-            time: '4h'
-        }
-    ];
+    const { message: messages, setActiveMessage } = useChat();
 
     return (
-        <section className="flex-1 bg-white border-r border-gray-200">
+        <section className="flex-1 bg-white ">
             <div className="h-full flex flex-col">
-                <div className="p-2 border-b border-gray-200">
+                <div className="p-2">
                     {/* <div className="flex items-center justify-between"> */}
                         {/* <h2 className="text-xl font-semibold text-gray-900">Conversations</h2> */}
                         {/* <div className="flex items-center space-x-2">
@@ -55,7 +26,10 @@ export default function ConversationList() {
                 </div>
                 <div className="flex-1 overflow-y-auto p-2 space-y-2">
                     {messages.map((message) => (
-                        <div key={message.id} className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                        <div key={message.id}
+                            onClick={() => setActiveMessage(message)} 
+                            className={`flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-lg cursor-pointer ${message.isActive ? 'bg-blue-50' : ''}`}
+                        >
                             <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium">
                                 {message.avatar}
                             </div>

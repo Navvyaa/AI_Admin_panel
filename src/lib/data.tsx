@@ -1,5 +1,13 @@
-// data.tsx
-export const messages = [
+interface Message {
+    id: string;
+    sender: string;
+    avatar: string;
+    preview: string;
+    fullMessage: string;
+    time: string;
+    isActive:boolean;
+  }
+export const messages:Message[] = [
     {
       id: '1',
       sender: 'Luis Easton',
@@ -7,23 +15,25 @@ export const messages = [
       preview: 'I bought a product from your store in November as a Christmas gift...',
       fullMessage: 'Hi, I bought a product in November as a gift and it was defective. Can I get a refund?',
       time: '4m',
-      isNew: true
+      isActive:false
     },
     {
       id: '2',
       sender: 'Lucy Smith',
       avatar: 'NY',
       preview: 'Good morning, let me...',
-      fullMessage: 'Hi, I bought a product in November as a gift and it was defective. Can I get a refund?',
-      time: '2h'
+      fullMessage: 'Hi, I bought a product a week ago but I dont like it anymore. Can it be rerturned?',
+      time: '2h',
+      isActive:false
     },
     {
       id: '3',
       sender: 'Sharon Joseph',
       avatar: 'M',
       preview: 'Hey there, I\'m Ne...',
-      fullMessage: 'Hi, I bought a product in November as a gift and it was defective. Can I get a refund?',
-      time: '4h'    
+      fullMessage: 'Hi, I bought a product in November as a gift and it was defective. i want to have a refund.',
+      time: '4h',
+      isActive:false, 
     }
 
   ];
