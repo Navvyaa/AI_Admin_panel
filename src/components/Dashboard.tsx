@@ -3,10 +3,10 @@ import { useState } from "react"
 import InboxSideBar from "./InboxSidebar"
 import ChatMessage from "./ChatMessage"
 import CopilotPanel from "./CopilotPanel"
-import { Menu, ArrowLeft, Bot } from 'lucide-react'
+import {  ArrowLeft, Bot } from 'lucide-react'
 
 export default function Dashboard() {
-  const [copilotConvo, setCopilotConvo] = useState<{ role: string; text: string }[]>([])
+  const [copilotConvo] = useState<{ role: string; text: string }[]>([])
   const [composer, setComposer] = useState<string>("");
   const [mobileView, setMobileView] = useState<'inbox' | 'chat' | 'copilot'>('inbox');
 

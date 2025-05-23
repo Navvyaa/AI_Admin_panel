@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { aiResponses } from "../lib/data"
 import { Send, Bot } from "lucide-react"
-import { useRef } from "react"
+// import { useRef } from "react"
 import { SquareSplitHorizontal, PencilLine } from "lucide-react";
 export default function CopilotPanel({
   onCompose,
@@ -15,7 +15,7 @@ export default function CopilotPanel({
   const [input, setInput] = useState<string>("");
   const [aiReply, setAiReply] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<{ role: string; text: string }[]>(conversation || []);
-  const scrollend = useRef(chatHistory.length);
+  // const scrollend = useRef(chatHistory.length);
 
   const handleAsk = () => {
     if (!input.trim()) return
