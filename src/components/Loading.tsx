@@ -106,7 +106,7 @@ export default function LoadingScreen({ onLoadComplete }: { onLoadComplete: () =
             <p className="text-black/70">AI Powered</p>
           </div>
           <div className="text-center">
-            <div className="w-8 h-8 bg-black/20 rounded-lg flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
+            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-2 backdrop-blur-sm">
               <MessageSquare size={16} className="text-gray-800" />
             </div>
             <p className="text-black/70">Smart Replies</p>
