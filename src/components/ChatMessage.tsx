@@ -163,7 +163,7 @@ export default function ChatMessage({ initialComposer = '', onMobileBack }: { in
                                         onEmojiClick={onEmojiClick}
                                         width={300}
                                         height={400}
-                                        theme={darkMode ? 'dark' as Theme : 'light' as Theme}
+                                        // theme={darkMode ? 'dark' as Theme : 'light' as Theme}
                                     />
                                 </div>
                             )}

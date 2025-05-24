@@ -10,6 +10,7 @@ A modern React-based admin dashboard for managing customer service conversations
 ## Features
 
 - 🎨 Modern UI with Tailwind CSS
+- 🌓 Dark/Light mode support
 - 📱 Fully responsive design
 - 💬 Real-time chat interface
 - 🤖 AI Copilot integration
