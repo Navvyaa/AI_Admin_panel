@@ -193,7 +193,7 @@ export default function CopilotPanel({
       </div>
 
       {/* Input Area */}
-      <div className="sticky  bottom-0 left-0 right-0 p-4 border-t border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm">
+      <div className="sticky lg:pb-4 pb-[36px] bottom-0 left-0 right-0 p-4 border-t border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm">
         <div className="mb-3 text-center flex items-center gap-2">
           <p className="text-xs text-gray-500">Suggested :</p>
           <button className=" text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors backdrop-blur-sm">

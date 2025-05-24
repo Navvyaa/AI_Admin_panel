@@ -1,13 +1,32 @@
 import { useState,useEffect,useRef} from 'react';
 import { useChat } from '../context/chatContext';
 import { ChevronDown, MessageSquareText, Zap, SmileIcon, BookMarked, Ellipsis, MailOpen, MoonStar } from 'lucide-react';
+import EmojiPicker, { type EmojiClickData } from 'emoji-picker-react';
 
 export default function ChatMessage({ initialComposer = '', onMobileBack }: { initialComposer?: string, onMobileBack?: () => void }) {
     const { message: messages, setActiveMessage } = useChat();
     const [composer, setComposer] = useState(initialComposer);
     const hasActiveMessage = messages.some(message => message.isActive);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const emojiPickerRef = useRef<HTMLDivElement>(null);
 
+    
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+                setShowEmojiPicker(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const onEmojiClick = (emojiData: EmojiClickData) => {
+        setComposer(prev => prev + emojiData.emoji);
+        setShowEmojiPicker(false);
+    };
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -122,11 +141,24 @@ export default function ChatMessage({ initialComposer = '', onMobileBack }: { in
                     placeholder="Write your response..."
                 />
                 <div className='flex justify-between items-center mt-2'>
-                    <div className='flex gap-2'>
-                        <button className='hover:bg-gray-50 p-1 rounded'><Zap size={window.innerWidth >= 1024 ? 18 : 14} style={{ fill: 'black' }} /></button>
+                    <div className='flex gap-2 '>
+                        <button className='hover:bg-gray-50 p-1 rounded cursor-pointer'><Zap size={window.innerWidth >= 1024 ? 18 : 14} style={{ fill: 'black' }} /></button>
                         <div className=''>|</div>
-                        <button className='hover:bg-gray-50 p-1 rounded'><BookMarked size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black', stroke: 'white' }} /></button>
-                        <button className='hover:bg-gray-50 p-1 rounded'><SmileIcon size={window.innerWidth >= 1024 ? 20 : 16} style={{ fill: 'black', stroke: 'white' }} /></button>
+                        <button className='hover:bg-gray-50 p-1 rounded cursor-pointer'><BookMarked size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black', stroke: 'white' }} /></button>
+                        <button className='hover:bg-gray-50 p-1 rounded cursor-pointer'
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}><SmileIcon size={window.innerWidth >= 1024 ? 20 : 16} style={{ fill: 'black', stroke: 'white' }} /></button>
+                        {showEmojiPicker && (
+                        <div 
+                            ref={emojiPickerRef}
+                            className="absolute bottom-12 left-0 z-50"
+                        >
+                            <EmojiPicker
+                                onEmojiClick={onEmojiClick}
+                                width={300}
+                                height={400}
+                            />
+                        </div>
+                    )}
                     </div>
                     <button
                         onClick={handleSend}

@@ -8,7 +8,7 @@ interface InboxSideBarProps {
 export default function InboxSideBar({ onChatSelect }: InboxSideBarProps) {
     return (
         <section className="lg:w-1/5 lg:h-auto bg-white overflow-y-hidden lg:shadow-md m-1 rounded-xl">
-            <div className="p-4 pb-9">
+            <div className="p-3 pb-9">
                 <p className="text-xl font-semibold border-b border-gray-200 p-2 pb-3">Your inbox</p>
                 <div className="mt-4">
                     <div className="flex justify-between items-center p-2 font-semibold text-sm">

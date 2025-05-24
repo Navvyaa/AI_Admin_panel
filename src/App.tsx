@@ -22,6 +22,7 @@ function App() {
           <ChatProvider>
             <Dashboard />
           </ChatProvider>
+      
   
       </section>
     </>
