@@ -10,7 +10,7 @@ export default function InboxSideBar({ onChatSelect }: InboxSideBarProps) {
     const { darkMode } = useTheme();
 
     return (
-        <section className={`lg:w-1/5 lg:h-auto ${darkMode ? 'bg-gray-900' : 'bg-white'} overflow-y-hidden lg:shadow-md m-1 rounded-xl`}>
+        <section className={`lg:w-1/5 lg:h-auto ${darkMode ? 'bg-gray-900 mt-0' : 'bg-white'} overflow-y-hidden lg:shadow-md m-1 rounded-xl`}>
             <div className="p-3 pb-9">
                 <p className={`text-xl font-semibold border-b ${darkMode ? 'border-gray-700 text-white' : 'border-gray-200'
                     } p-2 pb-3`}>
