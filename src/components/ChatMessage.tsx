@@ -38,7 +38,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                         message.isActive && (
                             <div key={message.id}>
                                 <div className="space-y-4">
-                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2 sticky top-0 bg-white z-10'>
+                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2  top-0 bg-white z-10'>
                                         <div className="lg:text-xl font-semibold p-2 pl-8 lg:pl-2">
                                             {message.sender}
                                         </div>
@@ -60,7 +60,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                                                 <div className={`flex-shrink-0 w-8 h-8 ${chat.role !== 'user' ? 'bg-gray-100' : 'bg-blue-100'} rounded-full flex items-center justify-center ${chat.role !== 'user' ? 'text-gray-600' : 'text-blue-600'} font-medium`}>
                                                     {chat.role === 'you' ? 'Y' : message.avatar}
                                                 </div>
-                                                <div className={`text-md max-w-[65%] p-3 rounded-lg ${chat.role !== 'user' ? 'bg-amber-100 rounded-br-none' : 'bg-blue-100 rounded-bl-none'}`}>
+                                                <div className={`text-md max-w-[65%] p-3 rounded-lg ${chat.role !== 'user' ? 'bg-gray-100 rounded-br-none' : 'bg-blue-100 rounded-bl-none'}`}>
                                                     {chat.text.split('\n').map((line, i) => (
                                                         <span key={i} className="break-words whitespace-pre-wrap">
                                                             {line}
@@ -81,7 +81,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                 )}
             </div>
 
-            {/* Fixed Composer */}
+            
             {hasActiveMessage  &&(
             <div className="sticky bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
                 <div className='flex gap-2 items-center mb-2'>

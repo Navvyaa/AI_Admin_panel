@@ -1,17 +1,29 @@
 import Dashboard from './components/Dashboard'
 import ChatProvider from './context/chatContext'
 import './App.css'
+import { ThemeProvider } from './context/themeContext'
+import { useState } from 'react'
+import Loading from './components/Loading'
 
 function App() {
-  // const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoadComplete = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <Loading onLoadComplete={handleLoadComplete} />;
+  }
 
   return (
     <>
-      {/* <p className='text-xl text-purple-900'>This is admin panel ai dashboard</p> */}
-      <section className='w-full h-screen '>
-        <ChatProvider>
-        <Dashboard />
-        </ChatProvider>
+      <section className='w-full h-screen'>
+        <ThemeProvider>
+          <ChatProvider>
+            <Dashboard />
+          </ChatProvider>
+        </ThemeProvider>
       </section>
     </>
   )
