@@ -1,11 +1,20 @@
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useRef} from 'react';
 import { useChat } from '../context/chatContext';
 import { ChevronDown, MessageSquareText, Zap, SmileIcon, BookMarked, Ellipsis, MailOpen, MoonStar } from 'lucide-react';
 
-export default function ChatMessage({ initialComposer = '' }: { initialComposer?: string }) {
+export default function ChatMessage({ initialComposer = '', onMobileBack }: { initialComposer?: string, onMobileBack?: () => void }) {
     const { message: messages, setActiveMessage } = useChat();
     const [composer, setComposer] = useState(initialComposer);
     const hasActiveMessage = messages.some(message => message.isActive);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     useEffect(() => {
         setComposer(initialComposer);
@@ -30,15 +39,26 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
         setComposer('');
     };
 
+    const handleClose = () => {
+        
+
+        if (window.innerWidth <= 1024) {
+           
+            onMobileBack?.();
+        }
+    };
+
     return (
         <section className="flex-1 flex flex-col bg-white h-[100dvh] lg:h-auto relative m-1 rounded-2xl overflow-hidden">
-            <div className="flex-1 rounded-xl bg-white p-4 space-y-3 lg:overflow-y-auto" style={{ height: 'calc(100dvh - 200px)' }}>
+            <div className="flex-1 rounded-xl bg-white p-4 lg:pt-0 space-y-3 overflow-y-auto no-scrollbar" >
+            {/* //   style={{ height: window.innerWidth <= 1024 ? 'calc(100dvh - 300px)' : 'calc(100dvh - 200px)' }} */}
+     
                 {hasActiveMessage ? (
                     messages.map((message) =>
                         message.isActive && (
                             <div key={message.id}>
                                 <div className="space-y-4">
-                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2 top-0 bg-white z-10'>
+                                    <div className='lg:flex lg:sticky hidden  pt-5 lg:pt-3 items-center  justify-between border-b border-gray-200 pb-2 top-0 bg-white z-10'>
                                         <div className="lg:text-xl font-semibold p-2 pl-8 lg:pl-2">
                                             {message.sender}
                                         </div>
@@ -49,7 +69,10 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                                             <button className='lg:p-2 p-1 bg-gray-50 hover:bg-gray-100 cursor-pointer rounded-lg'>
                                                 <MoonStar size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black' }} />
                                             </button>
-                                            <button className='lg:p-2 p-1 px-3 bg-gray-900 hover:bg-gray-950 cursor-pointer rounded-lg flex items-center gap-2 font-semibold text-white text-xs'>
+                                            <button 
+                                                onClick={handleClose}
+                                                className='lg:p-2 p-1 px-3 bg-gray-900 hover:bg-gray-950 cursor-pointer rounded-lg flex items-center gap-2 font-semibold text-white text-xs'
+                                            >
                                                 <MailOpen size={window.innerWidth >= 1024 ? 14 : 14}/> Close
                                             </button>
                                         </div>
@@ -69,7 +92,9 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                                                 </div>
                                             </div>
                                         ))}
+                                       
                                     </div>
+                                    <div ref={messagesEndRef} />
                                 </div>
                             </div>
                         )
@@ -83,7 +108,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
 
             
             {hasActiveMessage  &&(
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+            <div className="lg:static sticky bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
                 <div className='flex gap-2 items-center mb-2'>
                     <MessageSquareText size={20} color='black' style={{ fill: 'black', stroke: 'white' }} />
                     <p className='font-semibold text-[14px]'>Chat</p>
@@ -112,6 +137,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                 </div>
             </div>
             )}
+           
         </section>
     );
 }

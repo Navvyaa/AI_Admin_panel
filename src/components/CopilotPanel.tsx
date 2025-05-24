@@ -5,13 +5,17 @@ import { aiResponses } from "../lib/data"
 import { Send, Bot, Sparkles } from "lucide-react"
 import { SquareSplitHorizontal, PencilLine } from "lucide-react";
 
+type CopilotPanelProps = {
+  onCompose: (msg: string) => void;
+  conversation: { role: string; text: string }[];
+  onMobileViewChange?: (view: 'chat') => void;  // Add this prop
+};
+
 export default function CopilotPanel({
   onCompose,
   conversation,
-}: {
-  onCompose: (msg: string) => void
-  conversation: { role: string; text: string }[]
-}) {
+  onMobileViewChange
+}: CopilotPanelProps) {
   const [input, setInput] = useState<string>("");
   const [aiReply, setAiReply] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<{ role: string; text: string }[]>(conversation || []);
@@ -74,10 +78,26 @@ export default function CopilotPanel({
     );
   }
 
+  const handleAddToComposer = () => {
+    onCompose(aiReply);
+    setAiReply("");
+    setChatHistory((prev) => prev.map((msg, idx) => {
+      if (idx === chatHistory.length - 1) {
+        return { ...msg, composed: true };
+      }
+      return msg;
+    }));
+    
+
+    if (window.innerWidth < 1024 && onMobileViewChange) {
+      onMobileViewChange('chat');
+    }
+  };
+
   return (
-    <section className="h-[100dvh] lg:h-auto lg:w-96 bg-gradient-to-br from-slate-100 via-gray-100 to-zinc-200 m-1 rounded-xl overflow-hidden flex flex-col">
+    <section className="h-[100dvh] lg:h-auto lg:w-96 bg-gradient-to-br from-blue-50 via-purple-200 to-blue-200 m-1 rounded-xl overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm">
+      <div className="p-4 border-b border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm lg:sticky hidden lg:block">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -97,7 +117,7 @@ export default function CopilotPanel({
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 p-4 space-y-4 lg:overflow-y-auto" style={{ height: 'calc(100dvh - 200px)' }}>
+      <div className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar" style={{ height: 'calc(100dvh - 500px)' }}>
         {chatHistory.length === 0 ? (
           <div className="flex flex-col gap-4 items-center h-full justify-center space-x-3">
             <div className="flex-shrink-0 w-16 h-16 bg-white/60 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -126,24 +146,15 @@ export default function CopilotPanel({
                   <div
                     className={`text-sm p-3 rounded-lg max-w-[75%] ${msg.role === "ai"
                         ? "bg-white/90 text-gray-800 rounded-bl-none backdrop-blur-sm border border-gray-200"
-                        : "bg-gray-200/80 text-gray-700 rounded-br-none backdrop-blur-sm"
+                        : "bg-gray-100/80 text-gray-700 rounded-br-none backdrop-blur-sm"
                       }`}
                   >
                     {msg.text}
                     {msg.role === "ai" && i === chatHistory.length - 1 && aiReply !== "Sorry, I couldn't find anything helpful for that." &&  aiReply!=="Hi, how can I help you today?" &&(
-                      <div className="mt-3 space-y-2">
+                      <div className="mt-3 space-y-2 p-2">
                         <button
-                          onClick={() => {
-                            onCompose(aiReply);
-                            setAiReply("");
-                            setChatHistory((prev) => prev.map((msg, idx) => {
-                              if (idx === chatHistory.length - 1) {
-                                return { ...msg, composed: true };
-                              }
-                              return msg;
-                            }));
-                          }}
-                          className="text-xs px-3 py-2 flex gap-2 font-semibold items-center bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-full hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105"
+                          onClick={handleAddToComposer}
+                          className="text-xs px-3 py-2 flex gap-2 font-semibold items-center bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-full hover:from-gray-700 hover:to-gray-800 transition-all transform hover:scale-105"
                         >
                           <PencilLine size={14} strokeWidth={2.5} />
                           <p>Add to Composer</p>
@@ -176,16 +187,16 @@ export default function CopilotPanel({
                 </div>
               </div>
             )}
-             <div className="hidden lg:block" ref={messagesEndRef} />
+             <div  ref={messagesEndRef} />
           </>
         )}
       </div>
 
       {/* Input Area */}
-      <div className="absolute lg:static bottom-0 left-0 right-0 p-4 border-t border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm">
+      <div className="sticky  bottom-0 left-0 right-0 p-4 border-t border-gray-300 bg-gradient-to-r from-white/80 to-white/60 backdrop-blur-sm">
         <div className="mb-3 text-center flex items-center gap-2">
           <p className="text-xs text-gray-500">Suggested :</p>
-          <button className="mt-1 text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors backdrop-blur-sm">
+          <button className=" text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors backdrop-blur-sm">
             How do I get a refund?
           </button>
         </div>
