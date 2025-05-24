@@ -31,14 +31,14 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
     };
 
     return (
-        <section className="flex-1 flex flex-col bg-white h-[100dvh] lg:h-auto relative m-1 rounded-2xl">
-            <div className="flex-1 rounded-xl bg-white p-4 overflow-y-auto space-y-3" style={{ height: 'calc(100% - 140px)' }}>
+        <section className="flex-1 flex flex-col bg-white h-[100dvh] lg:h-auto relative m-1 rounded-2xl overflow-hidden">
+            <div className="flex-1 rounded-xl bg-white p-4 space-y-3 lg:overflow-y-auto" style={{ height: 'calc(100dvh - 200px)' }}>
                 {hasActiveMessage ? (
                     messages.map((message) =>
                         message.isActive && (
                             <div key={message.id}>
                                 <div className="space-y-4">
-                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2  top-0 bg-white z-10'>
+                                    <div className='flex items-center relative justify-between border-b border-gray-200 pb-2 top-0 bg-white z-10'>
                                         <div className="lg:text-xl font-semibold p-2 pl-8 lg:pl-2">
                                             {message.sender}
                                         </div>
@@ -54,7 +54,7 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="overflow-y-auto pb-4">
+                                    <div className="pb-4 lg:overflow-y-auto">
                                         {message.chatHistory?.map((chat, index) => (
                                             <div key={index} className={`flex gap-4 items-end mt-6 ${chat.role === 'you' ? 'flex-row-reverse' : ''}`}>
                                                 <div className={`flex-shrink-0 w-8 h-8 ${chat.role !== 'user' ? 'bg-gray-100' : 'bg-blue-100'} rounded-full flex items-center justify-center ${chat.role !== 'user' ? 'text-gray-600' : 'text-blue-600'} font-medium`}>
@@ -83,14 +83,14 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
 
             
             {hasActiveMessage  &&(
-            <div className="sticky bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white rounded-b-2xl">
                 <div className='flex gap-2 items-center mb-2'>
                     <MessageSquareText size={20} color='black' style={{ fill: 'black', stroke: 'white' }} />
                     <p className='font-semibold text-[14px]'>Chat</p>
                     <ChevronDown size={16} color='black' />
                 </div>
                 <textarea
-                    className="w-full rounded p-2 text-sm focus:outline-none resize-none h-[50px] overflow-y-auto bg-gray-50"
+                    className="w-full rounded p-2 text-sm focus:outline-none resize-none h-[50px] bg-gray-50 border-0"
                     value={composer}
                     onChange={(e) => setComposer(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSend())}
@@ -98,10 +98,10 @@ export default function ChatMessage({ initialComposer = '' }: { initialComposer?
                 />
                 <div className='flex justify-between items-center mt-2'>
                     <div className='flex gap-2'>
-                        <button className='hover:bg-gray-50'><Zap size={window.innerWidth >= 1024 ? 18 : 14} style={{ fill: 'black' }} /></button>
+                        <button className='hover:bg-gray-50 p-1 rounded'><Zap size={window.innerWidth >= 1024 ? 18 : 14} style={{ fill: 'black' }} /></button>
                         <div className=''>|</div>
-                        <button className='hover:bg-gray-50'><BookMarked size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black', stroke: 'white' }} /></button>
-                        <button className='hover:bg-gray-50'><SmileIcon size={window.innerWidth >= 1024 ? 20 : 16} style={{ fill: 'black', stroke: 'white' }} /></button>
+                        <button className='hover:bg-gray-50 p-1 rounded'><BookMarked size={window.innerWidth >= 1024 ? 20 : 14} style={{ fill: 'black', stroke: 'white' }} /></button>
+                        <button className='hover:bg-gray-50 p-1 rounded'><SmileIcon size={window.innerWidth >= 1024 ? 20 : 16} style={{ fill: 'black', stroke: 'white' }} /></button>
                     </div>
                     <button
                         onClick={handleSend}

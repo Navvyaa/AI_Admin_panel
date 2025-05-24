@@ -1,7 +1,6 @@
 import Dashboard from './components/Dashboard'
 import ChatProvider from './context/chatContext'
 import './App.css'
-import { ThemeProvider } from './context/themeContext'
 import { useState } from 'react'
 import Loading from './components/Loading'
 
@@ -19,11 +18,11 @@ function App() {
   return (
     <>
       <section className='w-full h-screen'>
-        <ThemeProvider>
+
           <ChatProvider>
             <Dashboard />
           </ChatProvider>
-        </ThemeProvider>
+  
       </section>
     </>
   )

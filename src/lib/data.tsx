@@ -50,6 +50,8 @@ export const messages:Message[] = [
   ];
   
   export const aiResponses: Record<string, string> = {
+    hello:'Hi, how can I help you today?',
+    hi:'Hi, how can I help you today?',
     refund: `We’re sorry the product didn’t meet expectations. We can process a full refund once the return is initiated.`,
     defective: `Please share a photo of the defective item. We’ll either send a replacement or refund your purchase.`,
     late: `Thanks for your patience. We’re checking with the courier and will provide an update within 24 hours.`,
