@@ -176,7 +176,7 @@ export default function CopilotPanel({
                 </div>
               </div>
             )}
-             <div ref={messagesEndRef} />
+             <div className="hidden lg:block" ref={messagesEndRef} />
           </>
         )}
       </div>
